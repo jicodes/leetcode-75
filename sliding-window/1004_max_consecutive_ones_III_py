@@ -1,0 +1,21 @@
+class Solution:
+    def longestOnes(self, nums: list[int], k: int) -> int:
+        left = 0  # Left pointer for the sliding window
+        zero_count = 0  # Count of zeros in the current window
+        max_length = 0  # Maximum length of consecutive ones found
+
+        # Expand the right pointer to find the longest valid window
+        for right in range(len(nums)):
+            if nums[right] == 0:
+                zero_count += 1
+
+            # Shrink the window from the left if we exceed k zeros
+            while zero_count > k:
+                if nums[left] == 0:
+                    zero_count -= 1
+                left += 1
+
+            # Update the maximum length of consecutive 1's considering flips of k 0's
+            max_length = max(max_length, right - left + 1)
+
+        return max_length
