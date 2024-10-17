@@ -2,7 +2,6 @@ from collections import defaultdict
 from typing import Optional
 
 
-# Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -13,27 +12,27 @@ class TreeNode:
 class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
         # Prefix sums encountered in the current path
-        sums = defaultdict(int)
-        sums[0] = 1  # Base case for when a path exactly equals targetSum
+        prefix_sums = defaultdict(int)
+        prefix_sums[0] = 1  # Base case for when a path exactly equals targetSum
 
-        def dfs(node, total):
+        def dfs(node, current_sum):
             if not node:
                 return 0
 
-            # Update the current total
-            total += node.val
+            # Update the current cumulative sum
+            current_sum += node.val
 
             # Check for the number of ways to form targetSum
-            count = sums[total - targetSum]
+            count = prefix_sums[current_sum - targetSum]
 
-            # Add the current total to the sums
-            sums[total] += 1
+            # Add the current sum to the prefix_sums
+            prefix_sums[current_sum] += 1
 
             # Explore children
-            count += dfs(node.left, total) + dfs(node.right, total)
+            count += dfs(node.left, current_sum) + dfs(node.right, current_sum)
 
-            # Backtrack, remove the current total from the sums
-            sums[total] -= 1
+            # Backtrack, remove the current sum from the prefix_sums
+            prefix_sums[current_sum] -= 1
 
             return count
 
