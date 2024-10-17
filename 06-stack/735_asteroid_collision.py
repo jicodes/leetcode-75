@@ -13,7 +13,7 @@ class Solution:
                     continue
                 elif stack[-1] == -asteroid:  # Equal size
                     stack.pop()  # Both destroy each other
-                break
+                break  # if the top asteroid is bigger, the current asteroid is destroyed, so break
             else:
                 stack.append(asteroid)  # Add the asteroid if no collision
 
